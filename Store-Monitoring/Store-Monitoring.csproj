@@ -102,10 +102,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Reqests\Requests.csproj">
-      <Project>{77d04d15-cc24-4487-a9c0-d80d23f62872}</Project>
-      <Name>Requests</Name>
-    </ProjectReference>
     <ProjectReference Include="..\StoreEntities\StoreEntities.csproj">
       <Project>{3645f127-7041-4b41-b4cc-cb30c57889e0}</Project>
       <Name>StoreEntities</Name>
