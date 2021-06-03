@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Store_Monitoring
 {
-    class Pallet : IStoreEntity
+    public class Pallet : IStoreEntity
     {
 
         public Pallet()

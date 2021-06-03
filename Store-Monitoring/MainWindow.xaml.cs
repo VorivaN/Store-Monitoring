@@ -21,6 +21,8 @@ namespace Store_Monitoring
     /// </summary>
     public partial class MainWindow : Window
     {
+        public String ConfigFilePath = @"..\..\settings.txt";
+
         public String ServerAddress;
         public String CellsUid;
         public String PacksUid;
@@ -51,21 +53,73 @@ namespace Store_Monitoring
                 PacksUid = settingsWindow.PacksUid_textBox.Text;
             }
         }
-
-        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void HideAllProperties()
         {
-
+            ArticlePropertyGrid.Visibility = Visibility.Collapsed;
+            NamePropertyGrid.Visibility = Visibility.Collapsed;
+            FullNamePropertyGrid.Visibility = Visibility.Collapsed;
+            GuidPropertyGrid.Visibility = Visibility.Collapsed;
+            TypePropertyGrid.Visibility = Visibility.Collapsed;
         }
+        private void CellsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            HideAllProperties();
 
+            var cell = CellsListView.SelectedItem as Cell;
+            if (cell != null)
+            {
+                NamePropertyGrid.Visibility = Visibility.Visible;
+                GuidPropertyGrid.Visibility = Visibility.Visible;
+                TypePropertyGrid.Visibility = Visibility.Visible;
 
+                NameProperty.Text = cell.Name;
+                GuidProperty.Text = cell.Guid.ToString();
+                TypeProperty.Text = cell.Type.ToString();
+            }
+        }
+        private void PalletsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            HideAllProperties();
+
+            var pallet = PalletsListView.SelectedItem as Pallet;
+            if (pallet != null)
+            {
+                NamePropertyGrid.Visibility = Visibility.Visible;
+                GuidPropertyGrid.Visibility = Visibility.Visible;
+                TypePropertyGrid.Visibility = Visibility.Visible;
+
+                NameProperty.Text = pallet.Name;
+                GuidProperty.Text = pallet.Guid.ToString();
+                TypeProperty.Text = pallet.Type.ToString();
+            }
+        }
+        private void PacksListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            HideAllProperties();
+
+            var pack = PacksListView.SelectedItem as Pack;
+            if (pack != null) {
+                ArticlePropertyGrid.Visibility = Visibility.Visible;
+                NamePropertyGrid.Visibility = Visibility.Visible;
+                FullNamePropertyGrid.Visibility = Visibility.Visible;
+                GuidPropertyGrid.Visibility = Visibility.Visible;
+                TypePropertyGrid.Visibility = Visibility.Visible;
+
+                NameProperty.Text = pack.Name;
+                GuidProperty.Text = pack.Guid.ToString();
+                TypeProperty.Text = pack.Type.ToString();
+                FullNameProperty.Text = pack.FullName;
+                ArticleProperty.Text = pack.Article;
+            }
+        }
         private bool LoadSettings()
         {
-            if (!File.Exists(@"..\..\settings.config"))
+            if (!File.Exists(ConfigFilePath))
             {
                 return false;
             }
 
-            foreach (var str in File.ReadLines(@"..\..\settings.config"))
+            foreach (var str in File.ReadLines(ConfigFilePath))
             {
                 var lex = str.Split('=');
                 if (lex.Count() < 2) continue;
@@ -98,15 +152,39 @@ namespace Store_Monitoring
             }
             return true;
         }
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        { 
+            if (!LoadSettings())
+            {
+                SettingsButton_Click(null, null);
+            }
+            GetDataFromServerAsync();
+        }
+        private void RefreshButton_Click(object sender, RoutedEventArgs e)
+        {
+            CellsListView.ItemsSource = null;
+            GetDataFromServerAsync();
+        }
+        async void GetDataFromServerAsync()
+        {
+            var cellTask = GetCellsFromServerAsync();
+            await cellTask;
+            CellsListView.ItemsSource = cellTask.Result;
 
+            var packTask = GetPacksFromServerAsync();
+            var palletTask = GetPalletsFromServerAsync();
+            await Task.WhenAll(new[] { packTask, palletTask });
+            PacksListView.ItemsSource = packTask.Result;
+            PalletsListView.ItemsSource = palletTask.Result;
+        }
         async Task<List<IEntity>> GetCellsFromServerAsync()
         {
             return await Task.Run(() =>
             {
                 try
                 {
-                    var api = new APIRequest(ServerAddress, Username, Password, ApplicationToken, CellsUid, PacksUid, PalletsUid);
-                    return Parser.GetCells(api.GetCells());
+                    var api = new APIRequest(ServerAddress, Username, Password, ApplicationToken);
+                    return Parser.ParseCells(api.GetEntitiesByTableUid(CellsUid));
                 }
                 catch (Exception ex)
                 {
@@ -115,29 +193,37 @@ namespace Store_Monitoring
                 }
             });
         }
-
-        async void GetDataFromServerAsync()
+        async Task<List<IEntity>> GetPacksFromServerAsync()
         {
-            var cellTask = GetCellsFromServerAsync();
-            await Task.WhenAll(new[] { cellTask });
-            CellsListView.ItemsSource = cellTask.Result;
-        }
-
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        { 
-            if (!LoadSettings())
+            return await Task.Run(() =>
             {
-                SettingsButton_Click(null, null);
-            }
-
-            List<Task<List<IEntity>>> tasks = new List<Task<List<IEntity>>> { GetCellsFromServerAsync() };
-            Task.WhenAll(tasks);
+                try
+                {
+                    var api = new APIRequest(ServerAddress, Username, Password, ApplicationToken);
+                    return Parser.ParsePacks(api.GetEntitiesByTableUid(PacksUid));
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                    return null;
+                }
+            });
         }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
+        async Task<List<IEntity>> GetPalletsFromServerAsync()
         {
-            GetDataFromServerAsync();
+            return await Task.Run(() =>
+            {
+                try
+                {
+                    var api = new APIRequest(ServerAddress, Username, Password, ApplicationToken);
+                    return Parser.ParsePallets(api.GetEntitiesByTableUid(PalletsUid));
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                    return null;
+                }
+            });
         }
     }
 }

@@ -13,7 +13,6 @@ namespace Store_Monitoring
             this.Type = ObjectType.Cell;
         }
 
-
         public string Name { get; set; }
         public Guid Guid { get; set; }
         public ObjectType Type { get; set; }

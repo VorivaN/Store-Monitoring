@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,6 +40,51 @@ namespace Store_Monitoring
         {
             this.DialogResult = true;
             this.Close();
+        }
+
+        private void ChooseConfigurationButton_Click(object sender, RoutedEventArgs e)
+        {
+            var openFileDialog = new OpenFileDialog();
+            openFileDialog.InitialDirectory = "c:\\";
+            openFileDialog.Filter = "txt files (*.txt)|*.txt";
+            openFileDialog.FilterIndex = 2;
+            openFileDialog.RestoreDirectory = true;
+
+            if (openFileDialog.ShowDialog().Value)
+            {
+                foreach (var str in File.ReadLines(openFileDialog.FileName))
+                {
+                    var lex = str.Split('=');
+                    if (lex.Count() < 2) continue;
+
+                    switch (lex[0])
+                    {
+                        case "ServerAddress":
+                            ServerAddress_textBox.Text = lex[1];
+                            break;
+                        case "Username":
+                            Username_textBox.Text = lex[1];
+                            break;
+                        case "Password":
+                            Password_textBox.Text = lex[1];
+                            break;
+                        case "ApplicationToken":
+                            ApplicationToken_textBox.Text = lex[1];
+                            break;
+                        case "CellsUid":
+                            CellsUid_textBox.Text = lex[1];
+                            break;
+                        case "PacksUid":
+                            PacksUid_textBox.Text = lex[1];
+                            break;
+                        case "PalletsUid":
+                            PalletUid_textBox.Text = lex[1];
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
         }
     }
 }

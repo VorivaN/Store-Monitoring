@@ -5,25 +5,73 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Store_Monitoring"
         mc:Ignorable="d" Loaded="Window_Loaded"
-        Title="Store monitoring" Height="450" Width="800">
-    <Grid Margin="6,0,6,2" Width="780" HorizontalAlignment="Center">
-        <Button Content="Refresh" HorizontalAlignment="Right" VerticalAlignment="Top" Width="75" Margin="0,40,10,0" Height="20" Click="Button_Click"/>
-        <Button Content="Settings" HorizontalAlignment="Right" VerticalAlignment="Top" Width="75" Click="SettingsButton_Click" Margin="0,10,10,0" Height="20"/>
-        <TabControl HorizontalAlignment="Left" Height="385" Margin="10,20,0,0" Width="390" VerticalAlignment="Top" >
+        Title="Store monitoring" Height="550" Width="1000">
+    <Grid Margin="3,3,3,3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="450"/>
+            <ColumnDefinition Width="532"/>
+        </Grid.ColumnDefinitions>
+
+        <Button Name ="RefreshButton" Content="Refresh" HorizontalAlignment="Right" VerticalAlignment="Top" Width="75" Margin="0,3,90,0" Height="20" Click="RefreshButton_Click" Grid.Column="1"/>
+        <Button Name ="SettingsButton" Content="Settings" HorizontalAlignment="Right" VerticalAlignment="Top" Width="75" Click="SettingsButton_Click" Margin="0,3,5,0" Height="20" Grid.Column="1"/>
+
+        <TabControl Grid.Column="0" HorizontalAlignment="Stretch" Margin="3,3,3,3" VerticalAlignment="Stretch" >
             <TabItem Header="Cells">
-                <ListView Name ="CellsListView" HorizontalAlignment="Left" Height="350" Margin="0,10,0,0" VerticalAlignment="Top" Width="384" SelectionChanged="ListView_SelectionChanged">
+                <ListView Name ="CellsListView" HorizontalAlignment="Stretch" Margin="3,3,3,3" VerticalAlignment="Stretch" SelectionChanged="CellsListView_SelectionChanged">
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="Type" Width="50" DisplayMemberBinding="{Binding Path=Type}" ></GridViewColumn>
-                            <GridViewColumn Header="Name" Width="330" DisplayMemberBinding="{Binding Path=Name}" ></GridViewColumn>
+                            <GridViewColumn Header="Name" Width="Auto" DisplayMemberBinding="{Binding Path=Name}" ></GridViewColumn>
                         </GridView>
                     </ListView.View>
                 </ListView>
             </TabItem>
             <TabItem Header="Pallets">
+                <ListView Name ="PalletsListView" HorizontalAlignment="Stretch" Margin="3,3,3,3" VerticalAlignment="Stretch" SelectionChanged="PalletsListView_SelectionChanged">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Name" Width="Auto" DisplayMemberBinding="{Binding Path=Name}" ></GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
             </TabItem>
             <TabItem Header="Packs">
+                <ListView Name ="PacksListView" HorizontalAlignment="Stretch" Margin="3,3,3,3" VerticalAlignment="Stretch" SelectionChanged="PacksListView_SelectionChanged">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Name" Width="Auto" DisplayMemberBinding="{Binding Path=Name}" ></GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
             </TabItem>
         </TabControl>
+
+        <WrapPanel Grid.Column="1" Name="PropertiesPanel" HorizontalAlignment="Stretch" Margin="3,30,3,3" VerticalAlignment="Stretch" Orientation="Vertical">
+            <WrapPanel.Resources>
+                <Style TargetType="{x:Type Grid}">
+                    <Setter Property="Margin" Value="0,3" />
+                    <Setter Property="Width" Value="520" />
+                </Style>
+            </WrapPanel.Resources>
+            <Grid Visibility="Collapsed" Name="TypePropertyGrid" >
+                <Label Content="Type" HorizontalAlignment="Left" Width="70"/>
+                <TextBox Name ="TypeProperty" IsReadOnly="True" VerticalContentAlignment="Center" HorizontalAlignment="Right" Width="400"/>
+            </Grid>
+            <Grid  Visibility="Collapsed" Name="NamePropertyGrid" >
+                <Label Content="Name" HorizontalAlignment="Left" Width="70"/>
+                <TextBox Name ="NameProperty" IsReadOnly="True" VerticalContentAlignment="Center" HorizontalAlignment="Right" Width="400"/>
+            </Grid>
+            <Grid  Visibility="Collapsed" Name="FullNamePropertyGrid">
+                <Label Content="FullName" HorizontalAlignment="Left" Width="70"/>
+                <TextBox Name ="FullNameProperty" IsReadOnly="True" VerticalContentAlignment="Center" HorizontalAlignment="Right" Width="400"/>
+            </Grid>
+            <Grid Visibility="Collapsed" Name="ArticlePropertyGrid">
+                <Label Content="Article" HorizontalAlignment="Left" Width="70"/>
+                <TextBox Name ="ArticleProperty" IsReadOnly="True" VerticalContentAlignment="Center" HorizontalAlignment="Right" Width="400"/>
+            </Grid>
+            <Grid Visibility="Collapsed" Name="GuidPropertyGrid">
+                <Label Content="Guid" HorizontalAlignment="Left" Width="70"/>
+                <TextBox Name ="GuidProperty" IsReadOnly="True" VerticalContentAlignment="Center" HorizontalAlignment="Right" Width="400"/>
+            </Grid>
+        </WrapPanel>
     </Grid>
 </Window>

@@ -10,8 +10,7 @@ namespace Store_Monitoring
 {
     public static class Parser
     {
-
-        public static List<IEntity> GetCells(String json)
+        public static List<IEntity> ParseCells(String json)
         {
             JArray js = (JArray)JsonConvert.DeserializeObject(json);
             List<IEntity> res = new List<IEntity>();
@@ -32,6 +31,64 @@ namespace Store_Monitoring
                     }
                 }
                 res.Add(cl);
+            }
+            return res;
+        }
+        public static List<IEntity> ParsePacks(String json)
+        {
+            JArray js = (JArray)JsonConvert.DeserializeObject(json);
+            List<IEntity> res = new List<IEntity>();
+
+            foreach (var pack in js)
+            {
+                var pck = new Pack();
+                foreach (JObject item in pack["Items"])
+                {
+                    if (item["Name"].ToString().Equals("Name"))
+                    {
+                        pck.Name = item["Value"].ToString();
+                    }
+
+                    if (item["Name"].ToString().Equals("FullName"))
+                    {
+                        pck.FullName = item["Value"].ToString();
+                    }
+
+                    if (item["Name"].ToString().Equals("Uid"))
+                    {
+                        pck.Guid = new Guid(item["Value"].ToString());
+                    }
+
+                    if (item["Name"].ToString().Equals("Artikul"))
+                    {
+                        pck.Article = item["Value"].ToString();
+                    }
+                }
+                res.Add(pck);
+            }
+            return res;
+        }
+        public static List<IEntity> ParsePallets(String json)
+        {
+            JArray js = (JArray)JsonConvert.DeserializeObject(json);
+            List<IEntity> res = new List<IEntity>();
+
+            foreach (var pallet in js)
+            {
+                var plt = new Pallet();
+                foreach (JObject item in pallet["Items"])
+                {
+                    if (item["Name"].ToString().Equals("PalletNumber"))
+                    {
+                        plt.Name = item["Value"].ToString();
+                    }
+
+                    if (item["Name"].ToString().Equals("Uid"))
+                    {
+                        plt.Guid = new Guid(item["Value"].ToString());
+                    }
+                }
+                res.Add(plt);
             }
             return res;
         }

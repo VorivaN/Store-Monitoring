@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Net;
-using System.Web;
 using System.IO;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
@@ -14,18 +10,12 @@ namespace Store_Monitoring
     public class APIRequest
     {
         String ServerAddress;
-        String CellsUid;
-        String PacksUid;
-        String PalletsUid;
         String Username;
         String Password;
         String ApplicationToken;
-        public APIRequest(String ServerAddress, String Username, String Password, String ApplicationToken, String CellsUid, String PacksUid, String PalletsUid)
+        public APIRequest(String ServerAddress, String Username, String Password, String ApplicationToken)
         {
             this.ServerAddress = ServerAddress;
-            this.CellsUid = CellsUid;
-            this.PacksUid = PacksUid;
-            this.PalletsUid = PalletsUid;
             this.Username = Username;
             this.Password = Password;
             this.ApplicationToken = ApplicationToken;
@@ -68,9 +58,9 @@ namespace Store_Monitoring
             return obj["AuthToken"].ToString();
         }
 
-        public String GetCells()
+        public String GetEntitiesByTableUid(String ListUid)
         {
-            WebRequest req = (HttpWebRequest)WebRequest.Create(String.Format(@"http://{0}/API/REST/Entity/QueryTree?type={1}", ServerAddress, CellsUid));
+            WebRequest req = (HttpWebRequest)WebRequest.Create(String.Format(@"http://{0}/API/REST/Entity/QueryTree?type={1}&limit=10", ServerAddress, ListUid));
             req.Method = "GET";
             req.Headers.Add("ApplicationToken", ApplicationToken);
             req.Headers["AuthToken"] = Authorize();
@@ -92,7 +82,5 @@ namespace Store_Monitoring
 
             return respStr;
         }
-
-
     }
 }

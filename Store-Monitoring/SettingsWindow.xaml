@@ -8,29 +8,52 @@
         mc:Ignorable="d"
         Title="Settings" Height="360" Width="500">
 
-    <Grid Margin="0,0,0,0" HorizontalAlignment="Center" Height="330" Width="500">
+    <Grid Margin="5,5,5,5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid.Resources>
+            <Style TargetType="{x:Type Label}">
+                <Setter Property="HorizontalAlignment" Value="Left" />
+                <Setter Property="Height" Value="25" />
+                <Setter Property="HorizontalAlignment" Value="Left" />
+                <Setter Property="VerticalAlignment" Value="Top" />
+                <Setter Property="Width" Value="110" />
+            </Style>
+            <Style TargetType="{x:Type TextBox}">
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="TextAlignment" Value="Left" />
+                <Setter Property="HorizontalAlignment" Value="Right" />
+                <Setter Property="Height" Value="25" />
+                <Setter Property="TextWrapping" Value="NoWrap" />
+                <Setter Property="TextWrapping" Value="NoWrap" />
+                <Setter Property="Text" Value="" />
+                <Setter Property="VerticalAlignment" Value="Top" />
+                <Setter Property="Width" Value="350" />
+            </Style>
+        </Grid.Resources>
+                
+        <Label Content="Server address" Margin="10,21,0,0"></Label>
+        <TextBox Name ="ServerAddress_textBox" Margin="0,21,10,0"/>
 
-        <Label Content="Server address" HorizontalAlignment="Left" Height="27" Margin="10,21,0,0" VerticalAlignment="Top" Width="114"></Label>
-        <TextBox Name ="ServerAddress_textBox" TextAlignment="Left" HorizontalAlignment="Right" Height="23" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="350" Margin="0,21,10,0"/>
+        <Label Content="Application token" Margin="10,51,0,0" ></Label>
+        <TextBox Name ="ApplicationToken_textBox" Margin="0,51,10,0"/>
 
-        <Label Content="Application token" HorizontalAlignment="Left" Height="27" Margin="10,51,0,0" VerticalAlignment="Top" Width="114"></Label>
-        <TextBox Name ="ApplicationToken_textBox" TextAlignment="Left" HorizontalAlignment="Right" Height="23" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="350" Margin="0,51,10,0"/>
+        <Label Content="Username" Margin="10,81,0,0"></Label>
+        <TextBox Name ="Username_textBox" Margin="0,81,10,0"/>
 
-        <Label Content="Username" HorizontalAlignment="Left" Height="27" Margin="10,81,0,0" VerticalAlignment="Top" Width="114"></Label>
-        <TextBox Name ="Username_textBox" TextAlignment="Left" HorizontalAlignment="Right" Height="23" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="350" Margin="0,81,10,0"/>
+        <Label Content="Password" Margin="10,111,0,0"></Label>
+        <TextBox Name ="Password_textBox" Margin="0,111,10,0"/>
 
-        <Label Content="Password" HorizontalAlignment="Left" Height="27" Margin="10,111,0,0" VerticalAlignment="Top" Width="114"></Label>
-        <TextBox Name ="Password_textBox" TextAlignment="Left" HorizontalAlignment="Right" Height="23" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="350" Margin="0,111,10,0"/>
+        <Label Content="Cells Uid" Margin="10,141,0,0"></Label>
+        <TextBox Name ="CellsUid_textBox" Margin="0,141,10,0"/>
 
-        <Label Content="Cells Uid" HorizontalAlignment="Left" Height="27" Margin="10,141,0,0" VerticalAlignment="Top" Width="114"></Label>
-        <TextBox Name ="CellsUid_textBox" TextAlignment="Left" HorizontalAlignment="Right" Height="23" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="350" Margin="0,141,10,0"/>
+        <Label Content="Packs Uid" Margin="10,171,0,0"></Label>
+        <TextBox Name ="PacksUid_textBox" Margin="0,171,10,0"/>
 
-        <Label Content="Packs Uid" HorizontalAlignment="Left" Height="27" Margin="10,171,0,0" VerticalAlignment="Top" Width="114"></Label>
-        <TextBox Name ="PacksUid_textBox" TextAlignment="Left" HorizontalAlignment="Right" Height="23" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="350" Margin="0,171,10,0"/>
+        <Label Content="Pallet Uid" Margin="10,201,0,0"></Label>
+        <TextBox Name ="PalletUid_textBox" Margin="0,201,10,0"/>
 
-        <Label Content="Pallet Uid" HorizontalAlignment="Left" Height="27" Margin="10,201,0,0" VerticalAlignment="Top" Width="114"></Label>
-        <TextBox Name ="PalletUid_textBox" TextAlignment="Left" HorizontalAlignment="Right" Height="23" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="350" Margin="0,201,10,0"/>
-
-        <Button Content="Save" HorizontalAlignment="Center" Margin="25,0,25,20" VerticalAlignment="Bottom" Width="250" Click="SaveButton_Click"/>
+        <Label Content="OR" Margin="10,221,0,0" HorizontalAlignment="Center" HorizontalContentAlignment="Center"></Label>
+        <Button Content="Choose configuration file" HorizontalAlignment="Center" Margin="25,0,25,45" VerticalAlignment="Bottom" Width="250" Click="ChooseConfigurationButton_Click"/>
+        
+        <Button Content="Save" HorizontalAlignment="Center" Margin="25,0,25,10" VerticalAlignment="Bottom" Width="250" Click="SaveButton_Click"/>
     </Grid>
 </Window>
