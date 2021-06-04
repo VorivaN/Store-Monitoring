@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Store_Monitoring
 {
+    /// <summary>
+    /// Парсит Json в объекты приложения
+    /// </summary>
     public static class Parser
     {
+        /// <summary>
+        /// Получает список Складских ячеек из Json
+        /// </summary>
+        /// <param name="json"></param>
+        /// <returns></returns>
         public static List<IEntity> ParseCells(String json)
         {
             JArray js = (JArray)JsonConvert.DeserializeObject(json);
@@ -34,6 +39,12 @@ namespace Store_Monitoring
             }
             return res;
         }
+
+        /// <summary>
+        /// Получает список Упаковок из Json
+        /// </summary>
+        /// <param name="json"></param>
+        /// <returns></returns>
         public static List<IEntity> ParsePacks(String json)
         {
             JArray js = (JArray)JsonConvert.DeserializeObject(json);
@@ -68,6 +79,12 @@ namespace Store_Monitoring
             }
             return res;
         }
+
+        /// <summary>
+        /// Получает список Паллет из Json
+        /// </summary>
+        /// <param name="json"></param>
+        /// <returns></returns>
         public static List<IEntity> ParsePallets(String json)
         {
             JArray js = (JArray)JsonConvert.DeserializeObject(json);

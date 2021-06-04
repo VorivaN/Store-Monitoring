@@ -1,18 +1,8 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Store_Monitoring
 {
@@ -30,18 +20,59 @@ namespace Store_Monitoring
             Password_textBox.Text = main.Password;
             ServerAddress_textBox.Text = main.ServerAddress;
             ApplicationToken_textBox.Text = main.ApplicationToken;
-            PalletUid_textBox.Text = main.PalletsUid; 
+            PalletUid_textBox.Text = main.PalletsUid;
             PacksUid_textBox.Text = main.PacksUid;
             CellsUid_textBox.Text = main.CellsUid;
         }
-        
-
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            this.DialogResult = true;
-            this.Close();
-        }
+            bool AllRequiredPropertiesFilled = true;
 
+            if (String.IsNullOrEmpty(ServerAddress_textBox.Text))
+            {
+                AllRequiredPropertiesFilled = false;
+            }
+
+            if (String.IsNullOrEmpty(Username_textBox.Text))
+            {
+                AllRequiredPropertiesFilled = false;
+            }
+
+            if (String.IsNullOrEmpty(Password_textBox.Text))
+            {
+                AllRequiredPropertiesFilled = false;
+            }
+
+            if (String.IsNullOrEmpty(ApplicationToken_textBox.Text))
+            {
+                AllRequiredPropertiesFilled = false;
+            }
+
+            if (String.IsNullOrEmpty(CellsUid_textBox.Text))
+            {
+                AllRequiredPropertiesFilled = false;
+            }
+
+            if (String.IsNullOrEmpty(PalletUid_textBox.Text))
+            {
+                AllRequiredPropertiesFilled = false;
+            }
+
+            if (String.IsNullOrEmpty(PacksUid_textBox.Text))
+            {
+                AllRequiredPropertiesFilled = false;
+            }
+
+            if (AllRequiredPropertiesFilled)
+            {
+                this.DialogResult = true;
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Not all required properties filled", "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+            }
+        }
         private void ChooseConfigurationButton_Click(object sender, RoutedEventArgs e)
         {
             var openFileDialog = new OpenFileDialog();
@@ -85,6 +116,20 @@ namespace Store_Monitoring
                     }
                 }
             }
+        }
+        private void HintButton_Click(object sender, RoutedEventArgs e)
+        {
+            String hint =
+@"Configuration file must be the same format:
+
+<property1 name>=<property1 value>
+<property2 name>=<property2 value>
+etc...
+
+For examlpe:
+ServerAddress=127.0.0.1:8000
+Username=ivan";
+            MessageBox.Show(hint);
         }
     }
 }

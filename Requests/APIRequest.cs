@@ -5,8 +5,12 @@ using System.IO;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 
+
 namespace Store_Monitoring
 {
+    /// <summary>
+    /// Класс для создания запросов к базе данных через API системы ELMA
+    /// </summary>
     public class APIRequest
     {
         String ServerAddress;
@@ -21,6 +25,10 @@ namespace Store_Monitoring
             this.ApplicationToken = ApplicationToken;
         }
 
+        /// <summary>
+        /// Авторизует пользователя по ApplicationToken, Username и Password
+        /// </summary>
+        /// <returns></returns>
         private String Authorize()
         {
             var req = (HttpWebRequest)WebRequest.Create(String.Format(@"http://{0}/API/REST/Authorization/LoginWith?username={1}", ServerAddress, Username));
@@ -58,9 +66,15 @@ namespace Store_Monitoring
             return obj["AuthToken"].ToString();
         }
 
+
+        /// <summary>
+        /// Получает список сущностей в виде Json из соотсветствующей таблицы
+        /// </summary>
+        /// <param name="ListUid"></param>
+        /// <returns></returns>
         public String GetEntitiesByTableUid(String ListUid)
         {
-            WebRequest req = (HttpWebRequest)WebRequest.Create(String.Format(@"http://{0}/API/REST/Entity/QueryTree?type={1}&limit=10", ServerAddress, ListUid));
+            WebRequest req = (HttpWebRequest)WebRequest.Create(String.Format(@"http://{0}/API/REST/Entity/QueryTree?type={1}&limit=500", ServerAddress, ListUid));
             req.Method = "GET";
             req.Headers.Add("ApplicationToken", ApplicationToken);
             req.Headers["AuthToken"] = Authorize();

@@ -31,12 +31,16 @@ namespace Store_Monitoring
         public String Password;
         public String ApplicationToken;
 
-
         public MainWindow()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Вызывает окно настроек
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
             var settingsWindow = new SettingsWindow();
@@ -53,6 +57,10 @@ namespace Store_Monitoring
                 PacksUid = settingsWindow.PacksUid_textBox.Text;
             }
         }
+
+        /// <summary>
+        /// Скрывает все поля свойств на главном экране
+        /// </summary>
         private void HideAllProperties()
         {
             ArticlePropertyGrid.Visibility = Visibility.Collapsed;
@@ -112,6 +120,11 @@ namespace Store_Monitoring
                 ArticleProperty.Text = pack.Article;
             }
         }
+      
+        /// <summary>
+        /// Получает настройки из файла конфигурации по умолчанию
+        /// </summary>
+        /// <returns></returns>
         private bool LoadSettings()
         {
             if (!File.Exists(ConfigFilePath))
@@ -165,6 +178,10 @@ namespace Store_Monitoring
             CellsListView.ItemsSource = null;
             GetDataFromServerAsync();
         }
+
+        /// <summary>
+        /// Асинхронно получает данные с сервера
+        /// </summary>
         async void GetDataFromServerAsync()
         {
             var cellTask = GetCellsFromServerAsync();
@@ -177,6 +194,11 @@ namespace Store_Monitoring
             PacksListView.ItemsSource = packTask.Result;
             PalletsListView.ItemsSource = palletTask.Result;
         }
+
+        /// <summary>
+        /// Асинхронно получает ячейки с сервера
+        /// </summary>
+        /// <returns></returns>
         async Task<List<IEntity>> GetCellsFromServerAsync()
         {
             return await Task.Run(() =>
@@ -193,6 +215,11 @@ namespace Store_Monitoring
                 }
             });
         }
+
+        /// <summary>
+        /// Асинхронно получает упаковки с сервера
+        /// </summary>
+        /// <returns></returns>
         async Task<List<IEntity>> GetPacksFromServerAsync()
         {
             return await Task.Run(() =>
@@ -209,6 +236,11 @@ namespace Store_Monitoring
                 }
             });
         }
+
+        /// <summary>
+        /// Асинхронно получает паллеты с сервера
+        /// </summary>
+        /// <returns></returns>
         async Task<List<IEntity>> GetPalletsFromServerAsync()
         {
             return await Task.Run(() =>

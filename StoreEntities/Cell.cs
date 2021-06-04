@@ -4,8 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
+
 namespace Store_Monitoring
 {
+    /// <summary>
+    /// Складская ячейка
+    /// </summary>
     public class Cell : IEntity
     {
         public Cell()

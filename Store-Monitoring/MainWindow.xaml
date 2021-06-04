@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Store_Monitoring"
         mc:Ignorable="d" Loaded="Window_Loaded"
+        ResizeMode="NoResize"
         Title="Store monitoring" Height="550" Width="1000">
     <Grid Margin="3,3,3,3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
         <Grid.ColumnDefinitions>

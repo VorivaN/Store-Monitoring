@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Store_Monitoring
 {
+    /// <summary>
+    /// Упаковка
+    /// </summary>
     public class Pack : IStoreEntity
     {
         public Pack()
